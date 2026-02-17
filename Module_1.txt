@@ -1,0 +1,63 @@
+1. Create a file and add executable permission to all users (user, group and others)
+
+[22bcs034@mepcolinux embedUR_Assignments]$touch file
+[22bcs034@mepcolinux embedUR_Assignments]$chmod a+x file
+[22bcs034@mepcolinux embedUR_Assignments]$ls -la
+drwxr-xr-x.  2 22bcs034 cse-ug-2022a 4096 Feb  2 15:26 .
+drwx------. 24 22bcs034 cse-ug-2022a 4096 Feb  2 15:25 ..
+-rwxr-xr-x.  1 22bcs034 cse-ug-2022a    0 Feb  2 15:26 file
+
+
+2. Create a file and remove write permission for group user alone.
+
+
+[22bcs034@mepcolinux embedUR_Assignments]$touch file
+[22bcs034@mepcolinux embedUR_Assignments]$chmod g-w file
+[22bcs034@mepcolinux embedUR_Assignments]$ls -la
+total 8
+drwxr-xr-x.  2 22bcs034 cse-ug-2022a 4096 Feb  2 15:26 .
+drwx------. 24 22bcs034 cse-ug-2022a 4096 Feb  2 15:25 ..
+-rwxr-xr-x.  1 22bcs034 cse-ug-2022a    0 Feb  2 15:29 file
+-rw-r--r--.  1 22bcs034 cse-ug-2022a    0 Feb  2 15:26 j
+
+
+
+3. Create a file and add a softlink to the file in different directory (Eg : Create a file in dir1/dir2/file and create a softlink for file inside dir1)
+
+[22bcs034@mepcolinux embedUR_Assignments]$mkdir -p dir1/dir2
+[22bcs034@mepcolinux embedUR_Assignments]$touch dir1/dir2/file
+[22bcs034@mepcolinux embedUR_Assignments]$ln -s dir2/file dir1/
+[22bcs034@mepcolinux embedUR_Assignments]$readlink dir1/file
+dir2/file
+
+
+4. Use ps command with options to display all active process running on the system
+
+
+[22bcs034@mepcolinux embedUR_Assignments]$ps aux
+USER        PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root          1  0.7  0.0 195760  8856 ?        Ss   14:16   0:33 /usr/lib/systemd/systemd --switched-root --system --
+root          2  0.0  0.0      0     0 ?        S    14:16   0:00 [kthreadd]
+root          4  0.0  0.0      0     0 ?        S<   14:16   0:00 [kworker/0:0H]
+root          6  0.0  0.0      0     0 ?        S    14:16   0:00 [ksoftirqd/0]
+root          7  0.0  0.0      0     0 ?        S    14:16   0:00 [migration/0]
+
+
+5. Create 3 files in a dir1 and re-direct the output of list command with sorted by timestamp of the files to a file
+
+
+
+[22bcs034@mepcolinux embedUR_Assignments]$cd dir1
+[22bcs034@mepcolinux dir1]$touch file1 file2 file3
+[22bcs034@mepcolinux dir1]$ls -lt > sorted_list.txt
+[22bcs034@mepcolinux dir1]$ls
+dir2  file  file1  file2  file3  sorted_list.txt
+[22bcs034@mepcolinux dir1]$cat sorted_list.txt
+total 4
+-rw-r--r--. 1 22bcs034 cse-ug-2022a    0 Feb  2 15:38 sorted_list.txt
+-rw-r--r--. 1 22bcs034 cse-ug-2022a    0 Feb  2 15:38 file1
+-rw-r--r--. 1 22bcs034 cse-ug-2022a    0 Feb  2 15:38 file2
+-rw-r--r--. 1 22bcs034 cse-ug-2022a    0 Feb  2 15:38 file3
+drwxr-xr-x. 2 22bcs034 cse-ug-2022a 4096 Feb  2 15:32 dir2
+lrwxrwxrwx. 1 22bcs034 cse-ug-2022a    9 Feb  2 15:30 file -> dir2/file
+

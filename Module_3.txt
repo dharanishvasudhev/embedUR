@@ -1,0 +1,113 @@
+
+
+Scenario: Automating file backup and Reporting to the system. Create a shell script called "backup_manager.sh" that performs the following tasks incorporating the concepts suggested.
+
+Requirements:
+1. Command-line Arguments and Quoting:
+The script must accept three arguments: Source directory: A directory containing files to back up. Backup directory: The destination where files will be backed up. File extension: A specific file extension to filter (e.g., .txt).
+Example:  ./backup_manager.sh "/home/user/source" "/backup" ".txt"
+
+2. Globbing:
+The script should use globbing to find all files in the source directory matching the provided file extension.
+3. Export Statements:
+Use export to set an environment variable BACKUP_COUNT, which tracks the total number of files backed up during the script execution.
+4. Array Operations:
+Store the list of files to be backed up in an array.
+Print the names of these files along with their sizes before performing the backup.
+5. Conditional Execution:
+If the backup directory does not exist, create it. If creation fails, exit with an error.
+If the source directory is empty or contains no files matching the extension, exit with a message.
+If a file already exists in the backup directory with the same name, only overwrite it if it is older than the source file (compare timestamps).
+6. Output Report:
+After the backup, generate a summary report displaying:
+Total files processed.
+Total size of files backed up.
+The path to the backup directory.
+The report should be saved in the backup directory as backup_report.log.
+
+CODE >>>>
+
+
+[22bcs034@mepcolinux embedUR_Assignments]$cat backup_manager.sh
+#!/bin/bash
+
+SOURCE_DIR="$1"
+BACKUP_DIR="$2"
+EXTENSION="$3"
+
+FILES=("$SOURCE_DIR"/*"$EXTENSION")
+
+export BACKUP_COUNT=0
+TOTAL_SIZE=0
+
+echo "Files to be backed up:"
+echo "----------------------"
+
+for file in "${FILES[@]}"
+do
+    if [ -f "$file" ]; then
+        SIZE=`ls -l "$file" | awk '{print $5}'`
+        echo "File: $file | Size: $SIZE bytes"
+        TOTAL_SIZE=$((TOTAL_SIZE + SIZE))
+    fi
+done
+
+echo "----------------------"
+echo "Backup Process Completed "
+for file in "${FILES[@]}"
+do
+    if [ -f "$file" ]; then
+        FILENAME=`echo "$file" | awk -F/ '{print $NF}'`
+
+        if [ -f "$BACKUP_DIR/$FILENAME" ]; then
+            if [ "$file" -nt "$BACKUP_DIR/$FILENAME" ]; then
+                cp "$file" "$BACKUP_DIR/"
+                BACKUP_COUNT=$((BACKUP_COUNT + 1))
+            fi
+        else
+            cp "$file" "$BACKUP_DIR/"
+            BACKUP_COUNT=$((BACKUP_COUNT + 1))
+        fi
+    fi
+done
+
+REPORT_FILE="$BACKUP_DIR/backup_report.log"
+
+echo "Report" > "$REPORT_FILE"
+echo "----------------------" >> "$REPORT_FILE"
+echo "Total files : $BACKUP_COUNT" >> "$REPORT_FILE"
+echo "Total size of : $TOTAL_SIZE bytes" >> "$REPORT_FILE"
+echo "Backup directory: $BACKUP_DIR" >> "$REPORT_FILE"
+
+
+[22bcs034@mepcolinux embedUR_Assignments]$ls -l source_dir
+total 4
+-rw-r--r--. 1 22bcs034 cse-ug-2022a 1085 Feb 12 09:30 sample1.txt
+-rw-r--r--. 1 22bcs034 cse-ug-2022a    0 Feb 12 09:27 sample2.txt
+-rw-r--r--. 1 22bcs034 cse-ug-2022a    0 Feb 12 09:27 sample3.txt
+-rw-r--r--. 1 22bcs034 cse-ug-2022a    0 Feb 12 09:27 sample4.txt
+[22bcs034@mepcolinux embedUR_Assignments]$ls -l backup_dir
+total 0
+[22bcs034@mepcolinux embedUR_Assignments]$./backup_manager.sh source_dir backup_dir .txt
+Files to be backed up:
+----------------------
+File: source_dir/sample1.txt | Size: 1085 bytes
+File: source_dir/sample2.txt | Size: 0 bytes
+File: source_dir/sample3.txt | Size: 0 bytes
+File: source_dir/sample4.txt | Size: 0 bytes
+----------------------
+Backup Process Completed
+[22bcs034@mepcolinux embedUR_Assignments]$ls -l backup_dir
+total 8
+-rw-r--r--. 1 22bcs034 cse-ug-2022a  102 Feb 12 09:55 backup_report.log
+-rw-r--r--. 1 22bcs034 cse-ug-2022a 1085 Feb 12 09:55 sample1.txt
+-rw-r--r--. 1 22bcs034 cse-ug-2022a    0 Feb 12 09:55 sample2.txt
+-rw-r--r--. 1 22bcs034 cse-ug-2022a    0 Feb 12 09:55 sample3.txt
+-rw-r--r--. 1 22bcs034 cse-ug-2022a    0 Feb 12 09:55 sample4.txt
+[22bcs034@mepcolinux embedUR_Assignments]$cat backup_dir/backup_report.log
+Report
+----------------------
+Total files : 4
+Total size of : 1085 bytes
+Backup directory: backup_dir
+[22bcs034@mepcolinux embedUR_Assignments]$

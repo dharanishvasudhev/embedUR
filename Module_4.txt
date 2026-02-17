@@ -1,0 +1,49 @@
+Assessment 4
+
+For the attached file, write a bash script which should take the file as input and have to go through it line by line and need to generate an output file (say output.txt) with listings of following parameters fetched from the input file.
+
+Params expected to be fetched from input.txt file : "frame.time", "wlan.fc.type", "wlan.fc.subtype"
+Sample output expected in output.txt:
+
+"frame.time": "Nov 14, 2024 11:44:48.219200000 India Standard Time",
+"wlan.fc.type": "1",
+"wlan.fc.subtype": "9"
+"frame.time": "Nov 14, 2024 11:44:48.219208000 India Standard Time",
+"wlan.fc.type": "0",
+"wlan.fc.subtype": "1",
+and so on.
+
+
+[22bcs034@mepcolinux mod_4]$cat script.sh
+#!/bin/bash
+
+INPUT_FILE="$1"
+OUTPUT_FILE="output.txt"
+
+> "$OUTPUT_FILE"
+
+while IFS= read -r line
+do
+    if [[ "$line" == *"frame.time"* || "$line" == *"wlan.fc.type"* || "$line" == *"wlan.fc.subtype"* ]]; then
+
+        echo "$line" >> "$OUTPUT_FILE"
+    fi
+
+done < "$INPUT_FILE"
+
+echo "Processing completed."
+
+
+[22bcs034@mepcolinux mod_4]$./script.sh input.txt
+Processing completed.
+[22bcs034@mepcolinux mod_4]$cat output.txt
+          "frame.time": "Dec 31, 2024 12:50:25.890970000 India Standard Time",
+          "frame.time_utc": "Dec 31, 2024 07:20:25.890970000 UTC",
+          "frame.time_epoch": "1735629625.890970000",
+          "frame.time_delta": "0.000000000",
+          "frame.time_delta_displayed": "0.000000000",
+          "frame.time_relative": "0.000000000",
+          "wlan.fc.type_subtype": "0x0008",
+            "wlan.fc.type": "0",
+            "wlan.fc.subtype": "8",
+[22bcs034@mepcolinux mod_4]$
