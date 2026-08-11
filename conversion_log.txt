@@ -1,0 +1,49 @@
+2026-08-03 06:17:07,994 - INFO - Conversion started.
+2026-08-03 06:17:07,994 - INFO - Loading PyTorch model.
+2026-08-03 06:17:08,004 - INFO - Model loaded successfully.
+2026-08-03 06:17:08,004 - INFO - Checking calibration directory.
+2026-08-03 06:17:08,005 - INFO - 50 calibration files found.
+2026-08-03 06:17:08,022 - INFO - Calibration validation completed.
+2026-08-03 06:17:08,023 - INFO - Dummy input created.
+2026-08-03 06:17:08,023 - INFO - Part 1 completed.
+2026-08-03 06:17:08,023 - INFO - Starting ONNX export.
+2026-08-03 06:17:11,436 - INFO - No unused functions to remove
+2026-08-03 06:17:11,436 - WARNING - The model version conversion is not supported by the onnxscript version converter and fallback is enabled. The model will be converted using the onnx C API (target version: 13).
+2026-08-03 06:17:11,456 - WARNING - Failed to convert the model to the target version 13 using the ONNX C API. The model was not modified
+Traceback (most recent call last):
+  File "D:\onboarding-quantization\Dharanish\.venv\lib\site-packages\onnxscript\version_converter\__init__.py", line 137, in call
+    converted_proto = _c_api_utils.call_onnx_api(
+  File "D:\onboarding-quantization\Dharanish\.venv\lib\site-packages\onnxscript\version_converter\_c_api_utils.py", line 65, in call_onnx_api
+    result = func(proto)
+  File "D:\onboarding-quantization\Dharanish\.venv\lib\site-packages\onnxscript\version_converter\__init__.py", line 132, in _partial_convert_version
+    return onnx.version_converter.convert_version(
+  File "D:\onboarding-quantization\Dharanish\.venv\lib\site-packages\onnx\version_converter.py", line 39, in convert_version
+    converted_model_str = C.convert_version(model_str, target_version)
+RuntimeError: D:\a\onnx\onnx\onnx/version_converter/BaseConverter.h:67: adapter_lookup: Assertion `false` failed: No Adapter From Version $14 for Relu
+2026-08-03 06:17:11,458 - INFO - Removed 1 unused nodes
+2026-08-03 06:17:11,458 - INFO - No unused functions to remove
+2026-08-03 06:17:11,459 - INFO - Skipping constant folding for node 'node_conv2d' because it is graph input to preserve graph signature
+2026-08-03 06:17:11,469 - INFO - Removed 2 unused nodes
+2026-08-03 06:17:11,469 - INFO - No unused functions to remove
+2026-08-03 06:17:11,470 - INFO - Skipping constant folding for node 'node_conv2d' because it is graph input to preserve graph signature
+2026-08-03 06:17:11,475 - INFO - No unused functions to remove
+2026-08-03 06:17:11,475 - INFO - PassManager: No more graph changes detected after step 1
+2026-08-03 06:17:11,479 - INFO - ONNX export successful.
+2026-08-03 06:17:11,479 - INFO - Validating ONNX model.
+2026-08-03 06:17:11,584 - INFO - ONNX validation successful.
+2026-08-03 06:17:11,584 - INFO - ONNX graph inspected.
+2026-08-03 06:17:11,586 - INFO - Previous SavedModel removed.
+2026-08-03 06:17:11,587 - INFO - Starting ONNX -> TensorFlow conversion.
+2026-08-03 06:17:13,214 - INFO - TensorFlow SavedModel created.
+2026-08-03 06:17:13,215 - INFO - SavedModel verified.
+2026-08-03 06:17:13,278 - INFO - SavedModel loaded.
+2026-08-03 06:17:13,278 - INFO - SavedModel signatures printed.
+2026-08-03 06:17:13,278 - INFO - Part 2 completed.
+2026-08-03 06:17:13,278 - INFO - Creating representative dataset.
+2026-08-03 06:17:13,279 - INFO - Representative dataset ready.
+2026-08-03 06:17:13,279 - INFO - Starting TFLite conversion.
+2026-08-03 06:17:13,796 - INFO - INT8 model generated.
+2026-08-03 06:17:13,796 - INFO - Verifying model.
+2026-08-03 06:17:13,828 - INFO - Quantization parameters printed.
+2026-08-03 06:17:13,829 - INFO - Model size : 110.47 KiB
+2026-08-03 06:17:13,831 - INFO - Inference successful.
